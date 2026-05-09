@@ -1,29 +1,44 @@
 <div class="dashboard">
   <div class="dashboard-header">
-    <h1>Task Dashboard</h1>
-        @if (isLoading) {
-        <p>Loading tasks...</p>
-        }
+    <div>
+      <h1>Task Dashboard</h1>
+      <p>Manage and review your current task workload.</p>
+    </div>
 
-        @if (errorMessage) {
-        <p class="error">{{ errorMessage }}</p>
-        }
-
-    <button (click)="loadTasks()">Refresh</button>
+    <button mat-flat-button color="primary" (click)="loadTasks()">
+      Refresh
+    </button>
   </div>
+
+  @if (isLoading) {
+    <p>Loading tasks...</p>
+  }
+
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  }
 
   <div class="task-grid">
     @for (task of tasks; track task.id) {
-      <div class="task-card">
-        <h3>{{ task.title }}</h3>
+      <mat-card class="task-card">
+        <mat-card-header>
+          <mat-card-title>{{ task.title }}</mat-card-title>
+          <mat-card-subtitle>
+            Due {{ task.dueDate | date:'mediumDate' }}
+          </mat-card-subtitle>
+        </mat-card-header>
 
-        <p>{{ task.description }}</p>
+        <mat-card-content>
+          <p>{{ task.description }}</p>
 
-        <div class="task-meta">
-          <span>Status: {{ task.status }}</span>
-          <span>Priority: {{ task.priority }}</span>
-        </div>
-      </div>
+          <div class="chip-row">
+            <mat-chip>{{ task.status }}</mat-chip>
+            <mat-chip>{{ task.priority }}</mat-chip>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    } @empty {
+      <p>No tasks found.</p>
     }
   </div>
 </div>

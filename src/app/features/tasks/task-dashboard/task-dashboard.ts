@@ -1,9 +1,18 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { Task, TaskService } from '../../../core/services/task';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-task-dashboard',
-  imports: [],
+  imports: [
+    DatePipe,
+    MatCardModule,
+    MatButtonModule,
+    MatChipsModule
+  ],
   templateUrl: './task-dashboard.html',
   styleUrl: './task-dashboard.scss'
 })
