@@ -38,3 +38,19 @@
 .error {
   color: #b00020;
 }
+
+.create-card {
+  margin-bottom: 2rem;
+}
+
+.create-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+
+  button {
+    align-self: center;
+    height: 56px;
+  }
+}
