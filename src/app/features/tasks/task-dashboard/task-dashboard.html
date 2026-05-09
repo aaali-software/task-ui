@@ -1,2 +1,29 @@
-<h1>Task Dashboard</h1>
-<p>You are logged in.</p>
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h1>Task Dashboard</h1>
+        @if (isLoading) {
+        <p>Loading tasks...</p>
+        }
+
+        @if (errorMessage) {
+        <p class="error">{{ errorMessage }}</p>
+        }
+
+    <button (click)="loadTasks()">Refresh</button>
+  </div>
+
+  <div class="task-grid">
+    @for (task of tasks; track task.id) {
+      <div class="task-card">
+        <h3>{{ task.title }}</h3>
+
+        <p>{{ task.description }}</p>
+
+        <div class="task-meta">
+          <span>Status: {{ task.status }}</span>
+          <span>Priority: {{ task.priority }}</span>
+        </div>
+      </div>
+    }
+  </div>
+</div>
