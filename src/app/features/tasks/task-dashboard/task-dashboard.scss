@@ -54,3 +54,19 @@
     height: 56px;
   }
 }
+
+.filter-card {
+  margin-bottom: 2rem;
+}
+
+.filter-form {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 1rem;
+
+  mat-form-field {
+    min-width: 220px;
+  }
+}

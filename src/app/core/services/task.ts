@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -38,8 +38,18 @@ export class TaskService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;
 
-  getTasks(): Observable<TaskPage> {
-    return this.http.get<TaskPage>(`${this.apiUrl}/api/tasks`);
+  getTasks(status?: string, priority?: string): Observable<TaskPage> {
+    let params = new HttpParams();
+
+    if (status) {
+      params = params.set('status', status);
+    }
+
+    if (priority) {
+      params = params.set('priority', priority);
+    }
+
+    return this.http.get<TaskPage>(`${this.apiUrl}/api/tasks`, { params });
   }
 
   createTask(request: CreateTaskRequest): Observable<Task> {

@@ -61,6 +61,44 @@
       </form>
     </mat-card-content>
   </mat-card>
+
+  <mat-card class="filter-card">
+    <mat-card-header>
+      <mat-card-title>Filters</mat-card-title>
+      <mat-card-subtitle>Filter tasks by status and priority</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="filterForm" class="filter-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option value="">All statuses</mat-option>
+            @for (status of statuses; track status) {
+              <mat-option [value]="status">{{ status }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Priority</mat-label>
+          <mat-select formControlName="priority">
+            <mat-option value="">All priorities</mat-option>
+            @for (priority of priorities; track priority) {
+              <mat-option [value]="priority">{{ priority }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="button" (click)="loadTasks()">
+          Apply Filters
+        </button>
+
+        <button mat-button type="button" (click)="clearFilters()">Clear</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
   <div class="task-grid">
     @for (task of tasks; track task.id) {
       <mat-card class="task-card">

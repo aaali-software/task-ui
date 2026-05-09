@@ -7,6 +7,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Task, TaskService } from '../../../core/services/task';
 
 @Component({
@@ -20,6 +21,7 @@ import { Task, TaskService } from '../../../core/services/task';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatSnackBarModule,
   ],
   templateUrl: './task-dashboard.html',
   styleUrl: './task-dashboard.scss',
@@ -27,6 +29,7 @@ import { Task, TaskService } from '../../../core/services/task';
 export class TaskDashboard implements OnInit {
   private readonly taskService = inject(TaskService);
   private readonly fb = inject(FormBuilder);
+  private readonly snackBar = inject(MatSnackBar);
 
   priorities = ['LOW', 'MEDIUM', 'HIGH'];
   statuses = ['PENDING', 'IN_PROGRESS', 'COMPLETED'];
@@ -43,15 +46,23 @@ export class TaskDashboard implements OnInit {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.taskService.getTasks().subscribe({
+    const filters = this.filterForm.getRawValue();
+
+    this.taskService.getTasks(filters.status, filters.priority).subscribe({
       next: (response) => {
         this.tasks = response.content;
         this.isLoading = false;
       },
       error: (error) => {
         console.error('Failed to load tasks', error);
+
         this.errorMessage = 'Failed to load tasks. Please sign in again or try refreshing.';
+
         this.isLoading = false;
+
+        this.snackBar.open('Failed to load tasks', 'Close', {
+          duration: 3000,
+        });
       },
     });
   }
@@ -85,12 +96,36 @@ export class TaskDashboard implements OnInit {
             status: 'PENDING',
             dueDate: '',
           });
+
           this.loadTasks();
+
+          this.snackBar.open('Task created successfully', 'Close', {
+            duration: 3000,
+          });
         },
         error: (error) => {
           console.error('Failed to create task', error);
+
           this.errorMessage = 'Failed to create task. Please try again.';
+
+          this.snackBar.open('Failed to create task', 'Close', {
+            duration: 3000,
+          });
         },
       });
+  }
+
+  filterForm = this.fb.nonNullable.group({
+    status: [''],
+    priority: [''],
+  });
+
+  clearFilters(): void {
+    this.filterForm.reset({
+      status: '',
+      priority: '',
+    });
+
+    this.loadTasks();
   }
 }
