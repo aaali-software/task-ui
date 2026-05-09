@@ -1,6 +1,18 @@
 # TaskUi
 
+Angular frontend for the Task API backend project.
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.10.
+
+## Features
+
+- JWT authentication
+- Angular Material UI
+- Task dashboard
+- Backend integration with Spring Boot API
+
+## Backend API
+
+https://task-api-tug6.onrender.com
 
 ## Development server
 
